@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void kernel_main(void)
+void kernel_main()
 {
 	terminal_initialize();
 	for (int i = 0; i < 50; ++i)

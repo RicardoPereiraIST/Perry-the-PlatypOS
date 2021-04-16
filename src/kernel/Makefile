@@ -31,6 +31,10 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
  
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
+kernel/init.o \
+kernel/boot/gdt/gdt_initializer.o \
+kernel/boot/gdt/tss_table.o \
+kernel/boot/gdt/interrupts.o \
 kernel/kernel.o \
  
 OBJS=\

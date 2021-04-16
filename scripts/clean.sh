@@ -10,4 +10,4 @@ done
 
 rm -rf ../sysroot
 rm -rf ../isodir
-rm -rf ../perry.iso
+rm -rf ../bin/perry.iso
