@@ -1,4 +1,4 @@
-#include "gdt_initializer.h"
+#include "gdt.h"
 
 namespace GDT
 {
@@ -58,11 +58,11 @@ namespace GDT
         return descriptor;
     }
 
-    CGDT::CGDT()
+    GDT::GDT()
         : m_gdt{}
     {}
 
-    void CGDT::Setup()
+    void GDT::Setup()
     {
         // Init GDT descriptor
         m_gdt[0] = CreateNullDescriptor();

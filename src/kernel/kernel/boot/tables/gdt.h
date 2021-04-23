@@ -4,12 +4,12 @@
 
 namespace GDT
 {
-    class CGDT
+    class GDT
     {
         static constexpr const unsigned int GDT_SIZE = 8;
 
     public:
-        CGDT();
+        GDT();
         void Setup();
 
     private:

@@ -31,10 +31,11 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
  
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
-kernel/init.o \
-kernel/boot/gdt/gdt_initializer.o \
-kernel/boot/gdt/tss_table.o \
-kernel/boot/gdt/interrupts.o \
+kernel/boot.o \
+kernel/boot/tables/gdt.o \
+kernel/boot/tables/tss_table.o \
+kernel/boot/tables/interrupts.o \
+kernel/boot/a20/a20_enabler.o \
 kernel/kernel.o \
  
 OBJS=\
