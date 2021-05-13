@@ -34,6 +34,8 @@ _start:
 	# Transfer control to the main kernel.
 	call kernel_main
 
+	call _fini
+
 	# Hang if kernel_main unexpectedly returns.
 	cli
 1:	hlt

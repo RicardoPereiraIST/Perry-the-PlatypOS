@@ -6,10 +6,9 @@
 namespace GDT
 {
     CTssTable::CTssTable()
-        : m_cur_tss(0)
-    {
-        memset(m_table, 0, sizeof(task_state_segment_t) * SIZE);
-    }
+        : m_table{}
+        , m_cur_tss(0)
+    {}
 
     gdt_descriptor_t CTssTable::CreateDescriptor(const uint16_t dataSeg)
     {

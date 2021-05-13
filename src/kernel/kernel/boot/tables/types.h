@@ -6,8 +6,6 @@
 
 namespace GDT
 {
-    constexpr const uint8_t CODE_SELECTOR = 1;
-
     struct gdtr
     {
         uint16_t length;
@@ -34,4 +32,7 @@ namespace GDT
     }__attribute__((packed));
 
     static_assert(sizeof(gdt_descriptor_t) == 8, "GDT selector in long mode is 8 bytes long");
+    static_assert(sizeof(gdtr) == 6, "GDTR is 6 bytes long");
+
+    constexpr const uint8_t CODE_SELECTOR = 0x8;
 }

@@ -4,9 +4,19 @@
 
 namespace Interrupt
 {
-    IDT::IDT()
+    static void DefaultHandler()
     {
-        memset(m_idt, 0, sizeof(idt_descriptor_t) * SIZE);
+        for(;;);
+    }
+
+    IDT::IDT()
+        : m_idt{}
+    {
+        const uint32_t value = reinterpret_cast<uint32_t>(&DefaultHandler);
+        for (uint16_t i = 0; i < SIZE; ++i)
+        {
+            m_irsTable[i] = reinterpret_cast<THandler>(value);
+        }
     }
 
 
@@ -33,17 +43,33 @@ namespace Interrupt
                 entry.zero = 0;
                 entry.flags = flags;
 
-                uintptr_t address = reinterpret_cast<uintptr_t>(m_irsTable[i]);
+                const uintptr_t address = reinterpret_cast<uintptr_t>(m_irsTable[i]);
                 entry.offset_low = address & 0xFFFF;
                 entry.offset_high = (address & 0xFFFF0000) >> 16;
             }
         }
 
         // Init IDT Pointer
-        m_idtr.base = reinterpret_cast<uint64_t>(m_idt);
-        m_idtr.limit = SIZE * sizeof(idt_descriptor_t) - 1;
+        m_idtr.base = reinterpret_cast<uint32_t>(m_idt);
+        m_idtr.limit = sizeof(m_idt) - 1;
 
         // Load IDT
         asm volatile("lidt %0" : : "m" (m_idtr));
+    }
+
+    bool IDT::AddDescriptor(uint32_t i, const idt_descriptor_t& descriptor)
+    {
+        if (i > SIZE)
+        {
+            return false;
+        }              
+
+        m_idt[i] = descriptor;
+        return true;
+    }
+
+    const idt_descriptor_t& IDT::GetDescriptor(uint32_t i) const
+    {
+        return m_idt[i];
     }
 };

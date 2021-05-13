@@ -36,6 +36,10 @@ kernel/boot/tables/gdt.o \
 kernel/boot/tables/tss_table.o \
 kernel/boot/tables/interrupts.o \
 kernel/boot/a20/a20_enabler.o \
+kernel/boot/tables/pic.o \
+kernel/boot/tables/pit.o \
+kernel/boot/globals.o \
+kernel/boot/helpers.o \
 kernel/kernel.o \
  
 OBJS=\

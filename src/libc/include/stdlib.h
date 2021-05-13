@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sys/cdefs.h>
+#include <sys/stddef.h>
 
 #ifdef NDEBUG
 # define assert(EX)

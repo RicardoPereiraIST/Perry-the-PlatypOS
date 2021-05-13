@@ -7,7 +7,7 @@ set -e
 ISO="${DIR}/../bin/perry.iso"
 
 if [[ $1 == "debug" ]]; then
-	qemu-system-$($DIR/target-triplet-to-arch.sh $HOST) -S -monitor stdio -gdb tcp::1234 -boot d -cdrom $ISO -m 512 &
+	qemu-system-$($DIR/target-triplet-to-arch.sh $HOST) -S -monitor stdio -no-reboot -no-shutdown -d int -gdb tcp::1234 -boot d -cdrom $ISO -m 512 &
 else
-    qemu-system-$($DIR/target-triplet-to-arch.sh $HOST) -cdrom $ISO
+    qemu-system-$($DIR/target-triplet-to-arch.sh $HOST) -monitor stdio -cdrom $ISO #-no-reboot -d int -no-shutdown
 fi
