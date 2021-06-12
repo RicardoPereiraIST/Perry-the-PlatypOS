@@ -9,34 +9,15 @@
 #define		I86_PIT_REG_COUNTER2		0x42
 #define		I86_PIT_REG_COMMAND			0x43
 
-void PIT::Irq()
+uint32_t PIT::s_ticks = 0;
+
+void PIT::Handler(Registers *regs)
 {
-	m_ticks++;
-	BootHelpers::InterruptDone(0);
+	s_ticks++;
 }
 
 PIT::PIT()
-    : m_ticks(0)
 {}
-
-void PIT::Setup() const
-{
-	Interrupt::idt_descriptor_t descriptor;
-
-	const uintptr_t base = reinterpret_cast<uintptr_t>(BootHelpers::void_cast(&PIT::Irq));
-	descriptor.offset_low =	uint16_t(base & 0xffff);
-	descriptor.offset_high = uint16_t((base >> 16) & 0xffff);
-	descriptor.zero	= 0;
-	descriptor.flags.gate_type = Interrupt::INTERRUPT_GATE_TYPE;
-	descriptor.flags.dpl = 0;
-	descriptor.flags.p = 1;
-	descriptor.flags.s = 0;
-	descriptor.selector.index = GDT::CODE_SELECTOR;
-	descriptor.selector.ti = 0;
-	descriptor.selector.rpl = 0;
-
-	s_globals.IDT().AddDescriptor(32, descriptor);
-}
 
 uint8_t PIT::ReadData(uint8_t counter) const
 {
@@ -59,16 +40,9 @@ void PIT::SendCommand(uint8_t command) const
 	BootHelpers::OutByte(command, I86_PIT_REG_COMMAND);
 }
 
-uint32_t PIT::SetTickCount(uint32_t tickCount)
-{
-    const uint32_t curTickCount = m_ticks;
-    m_ticks = tickCount;
-    return curTickCount;
-}
-
 uint32_t PIT::GetTickCount() const
 {
-    return m_ticks;
+    return s_ticks;
 }
 
 void PIT::StartCounter(uint32_t freq, uint8_t counter, uint8_t mode)
@@ -92,5 +66,7 @@ void PIT::StartCounter(uint32_t freq, uint8_t counter, uint8_t mode)
 	SendData((divisor >> 8) & 0xff, 0);
 
 	//! reset tick count
-	m_ticks = 0;
+	s_ticks = 0;
+
+	s_globals.IRQ().Add(0, Handler);
 }

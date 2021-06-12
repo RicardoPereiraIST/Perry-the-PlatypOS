@@ -9,7 +9,7 @@ void kernel_init()
 {
     BootHelpers::DisableInterrupts();
     s_globals.ForceInitialization();
-    BootHelpers::EnableInterrupts();  
+    BootHelpers::EnableInterrupts();
 }
 
 #ifdef __cplusplus

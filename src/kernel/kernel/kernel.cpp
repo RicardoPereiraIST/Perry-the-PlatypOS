@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <kernel/tty.h>
 #include "boot/globals.h"
+#include "boot/helpers.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,7 +17,7 @@ void kernel_main()
 
 	while(true)
 	{
-		printf("%d\n", s_globals.PIT().GetTickCount());
+		printf("Tick: %d\n", s_globals.PIT().GetTickCount());
 	}
 }
 

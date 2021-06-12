@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "registers.h"
 
 namespace Interrupt
 {
@@ -41,20 +42,19 @@ namespace Interrupt
 
     constexpr const uint16_t INTERRUPT_GATE_TYPE = 0xE;
 
+    typedef void (*THandler)(Registers*);
+    
     class IDT
     {
-        typedef void (*THandler)();
         static constexpr uint16_t SIZE = 256;
     public:
         IDT();
         void Setup();
 
-        bool AddDescriptor(uint32_t i, const idt_descriptor_t& descriptor);
-        const idt_descriptor_t& GetDescriptor(uint32_t i) const;
+        bool AddDescriptor(uint8_t i, THandler handler, selector_t selector, flag_t flags);
 
     private:
         idtr m_idtr;
         idt_descriptor_t m_idt[SIZE];
-        THandler m_irsTable[SIZE];
     };
 }

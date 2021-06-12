@@ -67,9 +67,6 @@ void PIC::Setup(uint8_t base0, uint8_t base1) const
 {
     uint8_t	icw	= 0;
 
-	//! disable hardware interrupts
-	BootHelpers::DisableInterrupts();
-
 	//! Begin initialization of PIC
 
 	icw = (icw & ~I86_PIC_ICW1_MASK_INIT) | I86_PIC_ICW1_INIT_YES;

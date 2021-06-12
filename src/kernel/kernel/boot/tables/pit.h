@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "registers.h"
 
 #define		I86_PIT_OCW_MASK_BINCOUNT		1		//00000001
 #define		I86_PIT_OCW_MASK_MODE			0xE		//00001110
@@ -45,7 +46,6 @@ class PIT
 {
 public:
     PIT();
-    void Setup() const;
 
     void StartCounter(uint32_t freq, uint8_t counter, uint8_t mode);
     uint32_t GetTickCount() const;
@@ -55,10 +55,6 @@ public:
     void SendCommand(uint8_t command) const;
     
 private:
-    uint32_t SetTickCount(uint32_t tickCount);
-
-    void InterruptDone(unsigned int interruptNumber);
-    void Irq();
-
-    uint32_t m_ticks;
+    static void Handler(Registers *regs);
+    static uint32_t s_ticks;
 };

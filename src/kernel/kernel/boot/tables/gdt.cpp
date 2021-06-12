@@ -68,13 +68,23 @@ namespace GDT
         m_gdt[0] = CreateNullDescriptor();
         m_gdt[1] = CreateCodeDescriptor();
         m_gdt[2] = CreateDataDescriptor();
-        // m_gdt[3] = m_tss_table.CreateDescriptor(2);
 
         // // Init the GDT Pointer
         m_gdtr.length = sizeof(m_gdt) - 1;
         m_gdtr.pointer = reinterpret_cast<uint32_t>(&m_gdt);
 
         // Load the GDT
-        asm volatile("lgdt %0" : : "m" (m_gdtr));
+        asm volatile("lgdt %0;\n\t"
+            "mov $0x10, %%ax;\n\t"
+            "mov %%ax, %%ds;\n\t"
+            "mov %%ax, %%es;\n\t"
+            "mov %%ax, %%fs;\n\t"
+            "mov %%ax, %%gs;\n\t"
+            "mov %%ax, %%ss;\n\t"
+            "ljmp $0x8, $fake_gdt_jump%=;\n\t"
+            "fake_gdt_jump%=: ;"
+            :
+            : "m" (m_gdtr)
+            : "ax", "memory");
     }
 }

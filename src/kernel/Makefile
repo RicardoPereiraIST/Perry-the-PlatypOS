@@ -33,9 +33,9 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/boot.o \
 kernel/boot/tables/gdt.o \
-kernel/boot/tables/tss_table.o \
-kernel/boot/tables/interrupts.o \
-kernel/boot/a20/a20_enabler.o \
+kernel/boot/tables/idt.o \
+kernel/boot/tables/irq.o \
+kernel/boot/tables/isr.o \
 kernel/boot/tables/pic.o \
 kernel/boot/tables/pit.o \
 kernel/boot/globals.o \
@@ -43,6 +43,7 @@ kernel/boot/helpers.o \
 kernel/kernel.o \
  
 OBJS=\
+kernel/irqs.o \
 $(ARCHDIR)/crti.o \
 $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
@@ -51,6 +52,7 @@ $(ARCHDIR)/crtn.o \
  
 LINK_LIST=\
 $(LDFLAGS) \
+kernel/irqs.o \
 $(ARCHDIR)/crti.o \
 $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
