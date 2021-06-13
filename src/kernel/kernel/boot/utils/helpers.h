@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include "globals.h"
+#include "../a20/a20_enabler.h"
 
 namespace BootHelpers
 {
@@ -29,9 +30,8 @@ namespace BootHelpers
 
     inline bool TryEnableA20()
     {
-        // A20Enabler a20Enabler;
-        // return a20Enabler.TryEnableA20();
-        return false;
+        A20Enabler a20Enabler;
+        return a20Enabler.TryEnableA20();
     }
  
     // Self-modifying version

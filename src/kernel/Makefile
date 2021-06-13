@@ -38,6 +38,7 @@ kernel/boot/interrupts/irq.o \
 kernel/boot/interrupts/isr.o \
 kernel/boot/pic/pic.o \
 kernel/boot/pit/pit.o \
+kernel/boot/a20/a20_enabler.o \
 kernel/boot/utils/globals.o \
 kernel/boot/utils/helpers.o \
 kernel/kernel.o \

@@ -1,10 +1,12 @@
 #include "globals.h"
+#include "helpers.h"
 #include "../pit/pit_types.h"
 
 Globals s_globals;
 
 void Globals::Setup()
 {
+    BootHelpers::TryEnableA20();
     m_gdt.Setup();
     m_idt.Setup();
     m_pic.Setup(0x20,0x28);
