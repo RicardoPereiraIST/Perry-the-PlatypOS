@@ -31,19 +31,19 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
  
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
-kernel/boot.o \
-kernel/boot/tables/gdt.o \
-kernel/boot/tables/idt.o \
-kernel/boot/tables/irq.o \
-kernel/boot/tables/isr.o \
-kernel/boot/tables/pic.o \
-kernel/boot/tables/pit.o \
-kernel/boot/globals.o \
-kernel/boot/helpers.o \
+kernel/boot/boot.o \
+kernel/boot/gdt/gdt.o \
+kernel/boot/interrupts/idt.o \
+kernel/boot/interrupts/irq.o \
+kernel/boot/interrupts/isr.o \
+kernel/boot/pic/pic.o \
+kernel/boot/pit/pit.o \
+kernel/boot/utils/globals.o \
+kernel/boot/utils/helpers.o \
 kernel/kernel.o \
  
 OBJS=\
-kernel/irqs.o \
+kernel/boot/interrupts/irqs.o \
 $(ARCHDIR)/crti.o \
 $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
@@ -52,7 +52,7 @@ $(ARCHDIR)/crtn.o \
  
 LINK_LIST=\
 $(LDFLAGS) \
-kernel/irqs.o \
+kernel/boot/interrupts/irqs.o \
 $(ARCHDIR)/crti.o \
 $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \

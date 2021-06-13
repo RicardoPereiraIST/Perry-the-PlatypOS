@@ -1,27 +1,25 @@
 #include "irq.h"
-#include "../globals.h"
-#include "../helpers.h"
+#include "../pic/pic_types.h"
+#include "../utils/globals.h"
+#include "../utils/helpers.h"
 
 namespace Interrupt
 {
     THandler IRQ::s_handlers[]{};
 
-    static void SetMask(uint8_t i)
+    inline static void SetMask(uint8_t i)
     {
         const uint16_t port = i < 8 ? 0 : 1;
         const uint8_t value = s_globals.PIC().ReadData(port) | (1 << i);
         s_globals.PIC().SendData(value, port);
     }
 
-    static void ClearMask(uint8_t i)
+    inline static void ClearMask(uint8_t i)
     {
         const uint16_t port = i < 8 ? 0 : 1;
         const uint8_t value = s_globals.PIC().ReadData(port) & ~(1 << i);
         s_globals.PIC().SendData(value, port);
     }
-
-    IRQ::IRQ()
-    {}
 
     void IRQ::Setup()
     {
@@ -41,20 +39,23 @@ namespace Interrupt
 
     void IRQ::Stub(Registers* regs)
     {
-        if (regs->int_no <= 47 && regs->int_no >= 32)
+        const uint32_t interrupt_number = regs->int_no;
+
+        if (interrupt_number >= 32 && interrupt_number <= 47)
         {
-            if (s_handlers[regs->int_no - 32])
+            const uint32_t offset_interrupt_number = interrupt_number - 32;
+            if (s_handlers[offset_interrupt_number])
             {
-                s_handlers[regs->int_no - 32](regs);
+                s_handlers[offset_interrupt_number](regs);
             }
         }
 
-        if (regs->int_no >= 0x40)
+        if (interrupt_number >= 0x40)
         {
-            s_globals.PIC().SendCommand(I86_PIC_OCW2_MASK_EOI, 1);
+            s_globals.PIC().SendCommand(PIC::OCW2_MASK_EOI, 1);
         }
 
         //! always send end-of-interrupt to primary pic
-        s_globals.PIC().SendCommand(I86_PIC_OCW2_MASK_EOI, 0);
+        s_globals.PIC().SendCommand(PIC::OCW2_MASK_EOI, 0);
     }
 }

@@ -1,15 +1,20 @@
 #include "globals.h"
+#include "../pit/pit_types.h"
 
 Globals s_globals;
 
-void Globals::ForceInitialization()
+void Globals::Setup()
 {
     m_gdt.Setup();
     m_idt.Setup();
     m_pic.Setup(0x20,0x28);
     m_isr.Setup();
     m_irq.Setup();
-    m_pit.StartCounter(363, I86_PIT_OCW_COUNTER_0, I86_PIT_OCW_MODE_SQUAREWAVEGEN);
+}
+
+void Globals::StartTimer()
+{
+    m_pit.StartCounter(363, PIT::OCW_COUNTER_0, PIT::OCW_MODE_SQUAREWAVEGEN);
 }
 
 Globals::Globals()
@@ -36,12 +41,12 @@ Globals::Globals()
     return m_isr;
 }
 
-::PIC& Globals::PIC()
+::PIC::PIC& Globals::PIC()
 {
     return m_pic;
 }
 
-::PIT& Globals::PIT()
+::PIT::PIT& Globals::PIT()
 {
     return m_pit;
 }

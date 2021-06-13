@@ -60,6 +60,7 @@ namespace GDT
 
     GDT::GDT()
         : m_gdt{}
+        , m_gdtr{}
     {}
 
     void GDT::Setup()

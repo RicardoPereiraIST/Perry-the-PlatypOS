@@ -1,16 +1,14 @@
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 #include "tss_table.h"
+#include "../gdt/gdt_types.h"
 
-namespace GDT
+namespace TSS
 {
-    CTssTable::CTssTable()
+    TssTable::TssTable()
         : m_table{}
         , m_cur_tss(0)
     {}
 
-    gdt_descriptor_t CTssTable::CreateDescriptor(const uint16_t dataSeg)
+    ::GDT::gdt_descriptor_t TssTable::CreateDescriptor(const uint16_t dataSeg)
     {
         task_state_segment_t& tss = m_table[m_cur_tss++];
 
@@ -21,7 +19,7 @@ namespace GDT
         asm volatile("ltr %0" : : "m" (tss));
         
         // Setup Tss Descriptor
-        gdt_descriptor_t descriptor;
+        ::GDT::gdt_descriptor_t descriptor;
 
         const uint32_t base = reinterpret_cast<uint32_t>(&tss);
         const uint32_t limit = base + sizeof(task_state_segment_t) - 1;

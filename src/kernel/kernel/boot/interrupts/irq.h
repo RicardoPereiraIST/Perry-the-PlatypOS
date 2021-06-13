@@ -1,13 +1,13 @@
 #pragma once
 
-#include "idt.h"
+#include "idt_types.h"
 
 namespace Interrupt
 {
     class IRQ
     {
     public:
-        IRQ();
+        IRQ() = default;
         void Setup();
         void Add(uint8_t i, THandler handler);
 

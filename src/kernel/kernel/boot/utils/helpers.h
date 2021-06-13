@@ -31,6 +31,7 @@ namespace BootHelpers
     {
         // A20Enabler a20Enabler;
         // return a20Enabler.TryEnableA20();
+        return false;
     }
  
     // Self-modifying version
@@ -50,23 +51,5 @@ namespace BootHelpers
     void GenerateInterrupt()
     {
         asm volatile ("int %0\n" : : "N"(N));
-    }
-
-    inline void InterruptDone(unsigned int interruptNumber)
-    {
-        //! insure its a valid hardware irq
-        if (interruptNumber > 16)
-        {
-            return;
-        }
-
-        //! test if we need to send end-of-interrupt to second pic
-        if (interruptNumber >= 8)
-        {
-            s_globals.PIC().SendCommand(I86_PIC_OCW2_MASK_EOI, 1);
-        }
-
-        //! always send end-of-interrupt to primary pic
-        s_globals.PIC().SendCommand(I86_PIC_OCW2_MASK_EOI, 0);
     }
 }

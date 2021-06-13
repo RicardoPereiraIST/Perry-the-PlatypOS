@@ -1,5 +1,5 @@
-#include "boot/globals.h"
-#include "boot/helpers.h"
+#include "utils/globals.h"
+#include "utils/helpers.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,7 +8,7 @@ extern "C" {
 void kernel_init()
 {
     BootHelpers::DisableInterrupts();
-    s_globals.ForceInitialization();
+    s_globals.Setup();
     BootHelpers::EnableInterrupts();
 }
 

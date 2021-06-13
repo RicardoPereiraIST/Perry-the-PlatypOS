@@ -1,6 +1,6 @@
 #pragma once
 
-#include "idt.h"
+#include "idt_types.h"
 
 namespace Interrupt
 {
@@ -8,6 +8,7 @@ namespace Interrupt
     
     class ISR
     {
+    private:
         struct ISRS
         {
             uint8_t index;
@@ -15,7 +16,7 @@ namespace Interrupt
         };
 
     public:
-        ISR();
+        ISR() = default;
         void Setup();
         void Add(uint8_t i, THandler handler);
 

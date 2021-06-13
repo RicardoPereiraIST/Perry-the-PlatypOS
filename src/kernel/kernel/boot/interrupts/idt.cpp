@@ -1,13 +1,11 @@
-#include "types.h"
 #include "idt.h"
-#include <string.h>
 
 namespace Interrupt
 {
     IDT::IDT()
         : m_idt{}
+        , m_idtr{}
     {}
-
 
     void IDT::Setup()
     {

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <kernel/tty.h>
-#include "boot/globals.h"
-#include "boot/helpers.h"
+#include "boot/utils/globals.h"
+#include "boot/utils/helpers.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,6 +10,8 @@ extern "C" {
 void kernel_main()
 {
 	terminal_initialize();
+	s_globals.StartTimer();
+
 	for (int i = 0; i < 50; ++i)
 	{
 		printf("Hello, %d kernel World!\n", i);

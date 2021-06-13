@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "types.h"
+#include "gdt_types.h"
 
 namespace GDT
 {

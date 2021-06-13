@@ -43,18 +43,4 @@ namespace Interrupt
     constexpr const uint16_t INTERRUPT_GATE_TYPE = 0xE;
 
     typedef void (*THandler)(Registers*);
-    
-    class IDT
-    {
-        static constexpr uint16_t SIZE = 256;
-    public:
-        IDT();
-        void Setup();
-
-        bool AddDescriptor(uint8_t i, THandler handler, selector_t selector, flag_t flags);
-
-    private:
-        idtr m_idtr;
-        idt_descriptor_t m_idt[SIZE];
-    };
 }

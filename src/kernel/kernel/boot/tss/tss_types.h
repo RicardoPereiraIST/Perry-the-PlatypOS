@@ -1,9 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "types.h"
 
-namespace GDT
+namespace TSS
 {
     struct task_state_segment_t
     {
@@ -48,17 +47,4 @@ namespace GDT
     };
 
     static_assert(sizeof(task_state_segment_t) == 104, "Task State Segment is 104 bytes long");
-
-    class CTssTable
-    {
-        static constexpr unsigned int SIZE = 1;
-
-    public:
-        CTssTable();
-        gdt_descriptor_t CreateDescriptor(const uint16_t dataSeg);
-
-    private:
-        task_state_segment_t m_table[SIZE];
-        unsigned int m_cur_tss;
-    };
 }

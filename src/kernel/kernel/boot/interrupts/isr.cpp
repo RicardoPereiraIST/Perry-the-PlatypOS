@@ -1,5 +1,5 @@
 #include "isr.h"
-#include "../globals.h"
+#include "../utils/globals.h"
 
 extern "C" {
     void _isr0(Registers*);
@@ -145,6 +145,7 @@ extern "C" {
 
 static void exception_handler(Registers *regs)
 {
+    // panic(exceptions[regs->int_no]);
     for(;;);
 }
 
@@ -153,18 +154,15 @@ namespace Interrupt
     THandler ISR::s_handlers[]{};
     ISR::ISRS ISR::s_isrs[]{};
 
-    ISR::ISR()
-    {}
-
     void ISR::Setup()
     {
-        Interrupt::selector_t selector{};
-        Interrupt::flag_t flags{};
+        selector_t selector{};
+        flag_t flags{};
 
         selector.index = GDT::CODE_SELECTOR;
 
         flags.p = 1;
-        flags.gate_type = Interrupt::INTERRUPT_GATE_TYPE;
+        flags.gate_type = INTERRUPT_GATE_TYPE;
 
         for (uint8_t i = 0; i < NUM_ISRS; i++)
         {
