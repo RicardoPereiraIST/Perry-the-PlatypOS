@@ -17,9 +17,9 @@ void kernel_main()
 		printf("Hello, %d kernel World!\n", i);
 	}
 
-	while(true)
+	if (s_globals.EarlyLogStorage().HasErrors())
 	{
-		printf("Tick: %d\n", s_globals.PIT().GetTickCount());
+		printf("Errors found: %d\n", s_globals.EarlyLogStorage().GetErrorCount());
 	}
 }
 

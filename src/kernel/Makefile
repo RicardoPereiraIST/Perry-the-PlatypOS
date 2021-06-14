@@ -41,6 +41,7 @@ kernel/boot/pit/pit.o \
 kernel/boot/a20/a20_enabler.o \
 kernel/boot/utils/globals.o \
 kernel/boot/utils/helpers.o \
+kernel/boot/utils/early_errors_storage.o \
 kernel/kernel.o \
  
 OBJS=\

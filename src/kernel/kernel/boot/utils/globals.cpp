@@ -6,7 +6,11 @@ Globals s_globals;
 
 void Globals::Setup()
 {
-    BootHelpers::TryEnableA20();
+    if (!BootHelpers::TryEnableA20())
+    {
+        m_errorStorage.AddError("Failed to enable a20");
+    }
+
     m_gdt.Setup();
     m_idt.Setup();
     m_pic.Setup(0x20,0x28);
@@ -51,4 +55,9 @@ Globals::Globals()
 ::PIT::PIT& Globals::PIT()
 {
     return m_pit;
+}
+
+::BootHelpers::EarlyLogStorage& Globals::EarlyLogStorage()
+{
+    return m_errorStorage;
 }

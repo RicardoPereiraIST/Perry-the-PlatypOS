@@ -7,6 +7,7 @@
 #include "../interrupts/isr.h"
 #include "../pic/pic.h"
 #include "../pit/pit.h"
+#include "early_errors_storage.h"
 
 class Globals
 {
@@ -23,6 +24,7 @@ public:
     ::Interrupt::ISR& ISR();
     ::PIC::PIC& PIC();
     ::PIT::PIT& PIT();
+    ::BootHelpers::EarlyLogStorage& EarlyLogStorage();
 
 private:
     ::GDT::GDT m_gdt;
@@ -31,6 +33,7 @@ private:
     ::Interrupt::ISR m_isr;
     ::PIC::PIC m_pic;
     ::PIT::PIT m_pit;
+    ::BootHelpers::EarlyLogStorage m_errorStorage;
 };
 
 extern Globals s_globals;
