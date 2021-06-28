@@ -61,3 +61,8 @@ Globals::Globals()
 {
     return m_errorStorage;
 }
+
+::Memory::PhysicalMemoryManager& Globals::PhysicalMemoryManager()
+{
+    return m_pmm;
+}

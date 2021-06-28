@@ -26,6 +26,9 @@ stack_top:
 _start:
 	movl $stack_top, %esp
 
+	push %eax
+	push %ebx
+
 	# Call the global constructors.
 	call _init
 
@@ -33,6 +36,7 @@ _start:
 
 	# Transfer control to the main kernel.
 	call kernel_main
+	add	$0x8, %esp
 
 	call _fini
 

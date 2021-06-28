@@ -8,6 +8,7 @@
 #include "../pic/pic.h"
 #include "../pit/pit.h"
 #include "early_errors_storage.h"
+#include "../physical_memory/PhysicalMemoryManager.h"
 
 class Globals
 {
@@ -25,6 +26,7 @@ public:
     ::PIC::PIC& PIC();
     ::PIT::PIT& PIT();
     ::BootHelpers::EarlyLogStorage& EarlyLogStorage();
+    ::Memory::PhysicalMemoryManager& PhysicalMemoryManager();
 
 private:
     ::GDT::GDT m_gdt;
@@ -34,6 +36,7 @@ private:
     ::PIC::PIC m_pic;
     ::PIT::PIT m_pit;
     ::BootHelpers::EarlyLogStorage m_errorStorage;
+    ::Memory::PhysicalMemoryManager m_pmm;
 };
 
 extern Globals s_globals;

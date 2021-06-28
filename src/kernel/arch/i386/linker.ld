@@ -10,12 +10,14 @@ SECTIONS
 	   loaded at by the bootloader. */
 	. = 1M;
 
+	_kernel_start = .;
+
 	/* First put the multiboot header, as it is required to be put very early
 	   early in the image or the bootloader won't recognize the file format.
 	   Next we'll put the .text section. */
 	.text BLOCK(4K) : ALIGN(4K)
 	{
-		*(.multiboot)
+		KEEP(*(.multiboot))
 		*(.text)
 	}
 
@@ -31,6 +33,8 @@ SECTIONS
 		*(.data)
 	}
 
+	_kernel_file_size = . - _kernel_start;
+
 	/* Read-write data (uninitialized) and stack */
 	.bss BLOCK(4K) : ALIGN(4K)
 	{
@@ -40,4 +44,5 @@ SECTIONS
 
 	/* The compiler may produce other sections, put them in the proper place in
 	   in this file, if you'd like to include them in the final kernel. */
+	_kernel_end = .;
 }
