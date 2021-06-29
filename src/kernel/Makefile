@@ -14,7 +14,7 @@ EXEC_PREFIX?=$(PREFIX)
 BOOTDIR?=$(EXEC_PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/include
  
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra -fstack-protector
+CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra -fstack-protector -O0
 CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude
 CPPEXTRAFLAGS:=$(CPPEXTRAFLAGS) -nostdlib -fno-exceptions -fno-rtti
 LDFLAGS:=$(LDFLAGS)
@@ -43,6 +43,9 @@ kernel/boot/utils/globals.o \
 kernel/boot/utils/helpers.o \
 kernel/boot/utils/early_errors_storage.o \
 kernel/boot/physical_memory/PhysicalMemoryManager.o \
+kernel/boot/virtual_memory/pte.o \
+kernel/boot/virtual_memory/pde.o \
+kernel/boot/virtual_memory/VirtualMemoryManager.o \
 kernel/kernel.o \
  
 OBJS=\

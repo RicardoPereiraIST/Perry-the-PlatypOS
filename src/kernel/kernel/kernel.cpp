@@ -36,6 +36,14 @@ static inline void TestAllocation()
 	s_globals.PhysicalMemoryManager().FreeBlocks(p2, 2);
 }
 
+static inline void TestTicksForever()
+{
+	while(true)
+	{
+		printf("Tick: %d\n", s_globals.PIT().GetTickCount());
+	}
+}
+
 void kernel_main(multiboot_info_t* pInfo, unsigned int magic)
 {
 	if(magic != MULTIBOOT_BOOTLOADER_MAGIC)
@@ -54,13 +62,21 @@ void kernel_main(multiboot_info_t* pInfo, unsigned int magic)
 		s_globals.EarlyLogStorage().AddError("Failed to initialize physical memory manager.");
 	}
 
+	// Can only test allocation before paging is enabled
+	// TestAllocation();
+
+	if (!s_globals.VirtualMemoryManager().Setup())
+	{
+		s_globals.EarlyLogStorage().AddError("Failed to initialize virtual memory manager.");
+	}
+
 	if (s_globals.EarlyLogStorage().HasErrors())
 	{
 		printf("Errors found: %d\n", s_globals.EarlyLogStorage().GetErrorCount());
 	}
 
 	// TestPrint();
-	TestAllocation();
+	// TestTicksForever();
 }
 
 #ifdef __cplusplus

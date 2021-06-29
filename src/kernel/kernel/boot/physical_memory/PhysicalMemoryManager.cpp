@@ -167,12 +167,47 @@ namespace Memory
 
     bool PhysicalMemoryManager::IsPagingEnabled() const
     {
-        return false;
+        uint32_t res;
+        asm volatile("mov %%cr0, %0"
+                    : "=r"(res)
+                    :
+                    :
+                    );
+
+        return (res & (1 << 31));
     }
 
     void PhysicalMemoryManager::EnablePaging(bool enable)
     {
+        if (enable)
+        {
+            asm volatile("mov %%cr0, %%eax;\n\t"
+                        "or $0x80000000, %%eax;\n\t"
+                        "mov %%eax, %%cr0;\n\t"
+                        :
+                        :
+                        : "eax", "memory"
+                        );
+        }
+        else
+        {
+            asm volatile("mov %%cr0, %%eax;\n\t"
+                        "and $0x7FFFFFFF, %%eax;\n\t"
+                        "mov %%eax, %%cr0;\n\t"
+                        :
+                        :
+                        : "eax", "memory"
+                        );
+        }
+    }
 
+    void PhysicalMemoryManager::LoadPDBR(uint32_t addr) const
+    {
+        asm volatile("mov %0, %%cr3;"
+                    :
+                    : "r"(addr)
+                    : "memory"
+                    );
     }
 
     void PhysicalMemoryManager::SetBit(uint32_t bit)

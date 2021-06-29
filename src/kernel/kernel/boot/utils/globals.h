@@ -9,6 +9,7 @@
 #include "../pit/pit.h"
 #include "early_errors_storage.h"
 #include "../physical_memory/PhysicalMemoryManager.h"
+#include "../virtual_memory/VirtualMemoryManager.h"
 
 class Globals
 {
@@ -27,6 +28,7 @@ public:
     ::PIT::PIT& PIT();
     ::BootHelpers::EarlyLogStorage& EarlyLogStorage();
     ::Memory::PhysicalMemoryManager& PhysicalMemoryManager();
+    ::Memory::VirtualMemoryManager& VirtualMemoryManager();
 
 private:
     ::GDT::GDT m_gdt;
@@ -37,6 +39,7 @@ private:
     ::PIT::PIT m_pit;
     ::BootHelpers::EarlyLogStorage m_errorStorage;
     ::Memory::PhysicalMemoryManager m_pmm;
+    ::Memory::VirtualMemoryManager m_vmm;
 };
 
 extern Globals s_globals;

@@ -66,3 +66,8 @@ Globals::Globals()
 {
     return m_pmm;
 }
+
+::Memory::VirtualMemoryManager& Globals::VirtualMemoryManager()
+{
+    return m_vmm;
+}

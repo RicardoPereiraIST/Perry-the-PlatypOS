@@ -32,6 +32,8 @@ namespace Memory
         bool IsPagingEnabled() const;
         void EnablePaging(bool enable);
 
+        void LoadPDBR(uint32_t addr) const;
+
     private:
         // Sets region as free (unused)
         void InitRegion(uint32_t addr, uint32_t size);
