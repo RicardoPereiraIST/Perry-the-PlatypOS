@@ -1,6 +1,7 @@
 #include "globals.h"
 #include "helpers.h"
 #include "../pit/pit_types.h"
+#include <stdlib.h>
 
 Globals s_globals;
 
@@ -8,7 +9,7 @@ void Globals::Setup()
 {
     if (!BootHelpers::TryEnableA20())
     {
-        m_errorStorage.AddError("Failed to enable a20");
+        panic("Failed to enable a20\n");
     }
 
     m_gdt.Setup();
@@ -55,11 +56,6 @@ Globals::Globals()
 ::PIT::PIT& Globals::PIT()
 {
     return m_pit;
-}
-
-::BootHelpers::EarlyLogStorage& Globals::EarlyLogStorage()
-{
-    return m_errorStorage;
 }
 
 ::Memory::PhysicalMemoryManager& Globals::PhysicalMemoryManager()

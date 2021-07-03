@@ -4,7 +4,7 @@
 __attribute__((__noreturn__))
 void abort()
 {
-	printf("abort()\n");
+	printf("Aborted...\n");
 	while (1) { }
 	__builtin_unreachable();
 }

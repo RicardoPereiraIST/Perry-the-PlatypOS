@@ -1,9 +1,11 @@
-#include <stdio.h>
-#include <kernel/tty.h>
 #include "boot/utils/globals.h"
 #include "boot/utils/helpers.h"
 #include "boot/utils/multiboot.h"
+
+#include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <kernel/tty.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -140,7 +142,7 @@ void kernel_main(multiboot_info_t* pInfo, unsigned int magic)
 {
 	if(magic != MULTIBOOT_BOOTLOADER_MAGIC)
 	{
-		s_globals.EarlyLogStorage().AddError("Wrong multiboot magic number.");
+		panic("Wrong multiboot magic number.\n");
 	}
 
 	const uintptr_t start = (uintptr_t)&_kernel_start;
@@ -150,17 +152,12 @@ void kernel_main(multiboot_info_t* pInfo, unsigned int magic)
 
 	if (!s_globals.PhysicalMemoryManager().Init(pInfo, start, kernel_size))
 	{
-		s_globals.EarlyLogStorage().AddError("Failed to initialize physical memory manager.");
+		panic("Failed to initialize physical memory manager.\n");
 	}
 
 	if (!s_globals.VirtualMemoryManager().Setup())
 	{
-		s_globals.EarlyLogStorage().AddError("Failed to initialize virtual memory manager.");
-	}
-
-	if (s_globals.EarlyLogStorage().HasErrors())
-	{
-		printf("Errors found: %d\n", s_globals.EarlyLogStorage().GetErrorCount());
+		panic("Failed to initialize virtual memory manager.\n");
 	}
 
 	s_globals.Keyboard().Setup();
