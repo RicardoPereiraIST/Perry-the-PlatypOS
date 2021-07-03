@@ -15,10 +15,11 @@ extern "C" {
 __attribute__((__noreturn__))
 void abort();
 
+void panic(const char* szMessage);
+
 __attribute__((noreturn))
 void __assert (const char *msg, const char *file, int line);
 
-__attribute__((noreturn))
 void __stack_chk_fail();
 
 #ifdef __cplusplus

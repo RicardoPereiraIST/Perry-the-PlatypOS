@@ -10,6 +10,7 @@
 #include "early_errors_storage.h"
 #include "../physical_memory/PhysicalMemoryManager.h"
 #include "../virtual_memory/VirtualMemoryManager.h"
+#include "../../drivers/Keyboard/keyboard.h"
 
 class Globals
 {
@@ -29,6 +30,7 @@ public:
     ::BootHelpers::EarlyLogStorage& EarlyLogStorage();
     ::Memory::PhysicalMemoryManager& PhysicalMemoryManager();
     ::Memory::VirtualMemoryManager& VirtualMemoryManager();
+    ::Devices::Keyboard& Keyboard();
 
 private:
     ::GDT::GDT m_gdt;
@@ -40,6 +42,7 @@ private:
     ::BootHelpers::EarlyLogStorage m_errorStorage;
     ::Memory::PhysicalMemoryManager m_pmm;
     ::Memory::VirtualMemoryManager m_vmm;
+    ::Devices::Keyboard m_keyboard;
 };
 
 extern Globals s_globals;

@@ -1,5 +1,6 @@
 #include "isr.h"
 #include "../utils/globals.h"
+#include <stdlib.h>
 
 extern "C" {
     void _isr0(Registers*);
@@ -145,8 +146,7 @@ extern "C" {
 
 static void exception_handler(Registers *regs)
 {
-    // panic(exceptions[regs->int_no]);
-    for(;;);
+    panic(exceptions[regs->int_no]);
 }
 
 namespace Interrupt

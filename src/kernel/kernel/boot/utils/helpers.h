@@ -6,6 +6,13 @@
 
 namespace BootHelpers
 {
+    #define BIT(x) 1 << x;
+
+    template <typename T, uint64_t N>
+    char (&_ArraySizeHelper(T (&array)[N]))[N];
+
+    #define ARRAY_COUNT(array) (sizeof(BootHelpers::_ArraySizeHelper(array)))
+
     inline uint8_t InByte(uint16_t port)
     {
         uint8_t value;
@@ -51,5 +58,11 @@ namespace BootHelpers
     void GenerateInterrupt()
     {
         asm volatile ("int %0\n" : : "N"(N));
+    }
+
+    static inline void sleep (uint32_t ms)
+    {
+        const uint32_t ticks = ms + s_globals.PIT().GetTickCount();
+        while (ticks > s_globals.PIT().GetTickCount());
     }
 }

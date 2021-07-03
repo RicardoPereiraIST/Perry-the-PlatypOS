@@ -32,12 +32,15 @@ $(ARCH_FREEOBJS) \
 stdio/printf.o \
 stdio/putchar.o \
 stdio/puts.o \
+stdlib/panic.o \
 stdlib/abort.o \
 stdlib/assert.o \
+stdlib/stack_protector.o \
 string/memcmp.o \
 string/memcpy.o \
 string/memmove.o \
 string/memset.o \
+string/strcmp.o \
 string/strlen.o \
 string/itoa.o \
  

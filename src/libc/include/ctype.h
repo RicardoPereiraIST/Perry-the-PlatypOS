@@ -38,17 +38,27 @@ extern char _ctype[];
 
 /* Basic macros */
 
-#define isalnum(c)	((_ctype + 1)[(unsigned)(c)] & (CT_UP | CT_LOW | CT_DIG))
-#define isalpha(c)	((_ctype + 1)[(unsigned)(c)] & (CT_UP | CT_LOW))
-#define iscntrl(c)	((_ctype + 1)[(unsigned)(c)] & (CT_CTL))
-#define isdigit(c)	((_ctype + 1)[(unsigned)(c)] & (CT_DIG))
-#define isgraph(c)	((_ctype + 1)[(unsigned)(c)] & (CT_PUN | CT_UP | CT_LOW | CT_DIG))
-#define islower(c)	((_ctype + 1)[(unsigned)(c)] & (CT_LOW))
-#define isprint(c)	((_ctype + 1)[(unsigned)(c)] & (CT_PUN | CT_UP | CT_LOW | CT_DIG | CT_SP))
-#define ispunct(c)	((_ctype + 1)[(unsigned)(c)] & (CT_PUN))
-#define isspace(c)	((_ctype + 1)[(unsigned)(c)] & (CT_WHT))
-#define isupper(c)	((_ctype + 1)[(unsigned)(c)] & (CT_UP))
-#define isxdigit(c)	((_ctype + 1)[(unsigned)(c)] & (CT_DIG | CT_HEX))
+// When _ctype is initialized
+// #define isalnum(c)	((_ctype + 1)[(unsigned)(c)] & (CT_UP | CT_LOW | CT_DIG))
+// #define isalpha(c)	((_ctype + 1)[(unsigned)(c)] & (CT_UP | CT_LOW))
+// #define iscntrl(c)	((_ctype + 1)[(unsigned)(c)] & (CT_CTL))
+// #define isdigit(c)	((_ctype + 1)[(unsigned)(c)] & (CT_DIG))
+// #define isgraph(c)	((_ctype + 1)[(unsigned)(c)] & (CT_PUN | CT_UP | CT_LOW | CT_DIG))
+// #define islower(c)	((_ctype + 1)[(unsigned)(c)] & (CT_LOW))
+// #define isprint(c)	((_ctype + 1)[(unsigned)(c)] & (CT_PUN | CT_UP | CT_LOW | CT_DIG | CT_SP))
+// #define ispunct(c)	((_ctype + 1)[(unsigned)(c)] & (CT_PUN))
+// #define isspace(c)	((_ctype + 1)[(unsigned)(c)] & (CT_WHT))
+// #define isupper(c)	((_ctype + 1)[(unsigned)(c)] & (CT_UP))
+// #define isxdigit(c)	((_ctype + 1)[(unsigned)(c)] & (CT_DIG | CT_HEX))
+
+// in the meantime
+#define isalnum(c)	(isalpha(c) || isdigit(c))
+#define isalpha(c)	(islower(c) || isUpper(c))
+#define isdigit(c)	(c >= '0' && c <= '9')
+#define islower(c)	(c >= 'a' && c <= 'z')
+#define isspace(c)	(c == ' ')
+#define isupper(c)	(c >= 'A' && c <= 'Z')
+
 #define isascii(c)	((unsigned)(c) <= 0x7F)
 #define toascii(c)	((unsigned)(c) & 0x7F)
 #define tolower(c)	(isupper(c) ? c + 'a' - 'A' : c)

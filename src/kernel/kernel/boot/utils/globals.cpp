@@ -71,3 +71,8 @@ Globals::Globals()
 {
     return m_vmm;
 }
+
+::Devices::Keyboard& Globals::Keyboard()
+{
+    return m_keyboard;
+}

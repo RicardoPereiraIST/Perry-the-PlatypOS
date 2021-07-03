@@ -46,6 +46,9 @@ kernel/boot/physical_memory/PhysicalMemoryManager.o \
 kernel/boot/virtual_memory/pte.o \
 kernel/boot/virtual_memory/pde.o \
 kernel/boot/virtual_memory/VirtualMemoryManager.o \
+kernel/drivers/Keyboard/keyboard.o \
+kernel/drivers/Keyboard/Layouts/layouts.o \
+kernel/drivers/Keyboard/Layouts/international_layout.o \
 kernel/kernel.o \
  
 OBJS=\
