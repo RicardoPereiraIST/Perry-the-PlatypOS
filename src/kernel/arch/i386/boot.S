@@ -33,10 +33,10 @@ _start:
 	call _init
 
 	call kernel_init
+	add	$0x8, %esp
 
 	# Transfer control to the main kernel.
 	call kernel_main
-	add	$0x8, %esp
 
 	call _fini
 

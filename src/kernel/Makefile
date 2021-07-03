@@ -48,6 +48,7 @@ kernel/boot/virtual_memory/VirtualMemoryManager.o \
 kernel/drivers/Keyboard/keyboard.o \
 kernel/drivers/Keyboard/Layouts/layouts.o \
 kernel/drivers/Keyboard/Layouts/international_layout.o \
+kernel/cli/cli.o \
 kernel/kernel.o \
  
 OBJS=\
