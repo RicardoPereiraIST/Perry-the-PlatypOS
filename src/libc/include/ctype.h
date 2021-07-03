@@ -59,6 +59,11 @@ extern char _ctype[];
 #define isspace(c)	(c == ' ')
 #define isupper(c)	(c >= 'A' && c <= 'Z')
 
+#define isspace(c)  (c == ' ')
+#define iscntrl(c)  (!isprint(c))
+#define isprint(c)  (c > 0x1f && c < 0x7f)
+#define isgraph(c)  (c > 0x1f && c < 0x7f && !isspace(c))
+
 #define isascii(c)	((unsigned)(c) <= 0x7F)
 #define toascii(c)	((unsigned)(c) & 0x7F)
 #define tolower(c)	(isupper(c) ? c + 'a' - 'A' : c)

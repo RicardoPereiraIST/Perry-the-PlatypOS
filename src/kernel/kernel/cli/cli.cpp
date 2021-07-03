@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <cctype>
 #include <kernel/tty.h>
 
 void Cli::Run()
@@ -99,10 +100,7 @@ void Cli::GetCommand()
 
 			if (i > 0)
 			{
-				// Remove last char
-				// TODO
-
-				//! go back one char in cmd buf
+				terminal_removechar();
 				i--;
 			}
 		}
@@ -111,8 +109,8 @@ void Cli::GetCommand()
 		if (BufChar)
 		{
 			//! convert key to an ascii char and put it in buffer
-			char c = s_globals.Keyboard().KeyToAscii(key);
-			if (c != 0)
+			const char c = s_globals.Keyboard().KeyToAscii(key);
+			if (isprint(c))
 			{
 				terminal_putchar(c);
 				m_buffer[i++] = c;

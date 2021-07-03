@@ -24,7 +24,52 @@ static uint16_t* const terminal_buffer = VGA_MEMORY;
 
 
 /********************************************************/
-/*						Functions						*/
+/*					Helper Functions					*/
+/********************************************************/
+
+static uint8_t InByte(uint16_t port)
+{
+	uint8_t value;
+	asm volatile("inb %1, %0" : "=a" (value) : "dN" (port));
+	return value;
+}
+
+static void OutByte(uint8_t value, uint16_t port)
+{
+	asm volatile("outb %0, %1" : : "a" (value), "dN" (port));
+}
+
+/********************************************************/
+/*					Cursor Functions					*/
+/********************************************************/
+
+void enable_cursor()
+{
+	OutByte(0x0A, 0x3D4);
+	OutByte(InByte(0x3D5 & 0xC0), 0x3D5);
+
+	OutByte(0x0B, 0x3D4);
+	OutByte(InByte(0x3D5 & 0xE0) | VGA_HEIGHT, 0x3D5);
+}
+
+void disable_cursor()
+{
+	OutByte(0x0A, 0x3D4);
+	OutByte(0x20, 0x3D5);
+}
+
+void update_cursor()
+{
+	const size_t position = terminal_row * VGA_WIDTH + terminal_column;
+
+	OutByte(0x0F, 0x3D4);
+	OutByte(position & 0xFF, 0x3D5);
+	OutByte(0x0E, 0x3D4);
+	OutByte((position >> 8) & 0xFF, 0x3D5);
+}
+
+/********************************************************/
+/*					Terminal Functions					*/
 /********************************************************/
 
 void terminal_setcolor(uint8_t color)
@@ -77,12 +122,34 @@ void terminal_initialize()
 	terminal_column = 0;
 	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 	terminal_memset(terminal_buffer, vga_entry(' ', terminal_color), VGA_BUFFER_SIZE * 2);
+	enable_cursor();
 }
 
 void terminal_putchar(char c)
 {
 	handle_putchar(c);
 	handle_scroll();
+	update_cursor();
+}
+
+void terminal_removechar()
+{
+	if (terminal_row == 0 && terminal_column == 0)
+	{
+		return;
+	}
+
+	if (terminal_column > 0)
+	{
+		terminal_putentryat(' ', terminal_color, --terminal_column, terminal_row);
+	}
+	else
+	{
+		terminal_column = VGA_WIDTH - 1;
+		terminal_putentryat(' ', terminal_color, terminal_column, --terminal_row);
+	}
+
+	update_cursor();
 }
 
 void terminal_write(const char* data, size_t size)
