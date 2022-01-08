@@ -123,6 +123,7 @@ void terminal_initialize()
 	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 	terminal_memset(terminal_buffer, vga_entry(' ', terminal_color), VGA_BUFFER_SIZE * 2);
 	enable_cursor();
+	update_cursor();
 }
 
 void terminal_putchar(char c)

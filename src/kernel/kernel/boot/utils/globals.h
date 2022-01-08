@@ -1,6 +1,5 @@
 #pragma once
 
-#include "cstd.h"
 #include "../gdt/gdt.h"
 #include "../interrupts/idt.h"
 #include "../interrupts/irq.h"

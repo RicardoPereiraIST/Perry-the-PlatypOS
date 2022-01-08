@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include "../../boot/interrupts/registers.h"
+#include "Layouts/international_layout.h"
 
 namespace Devices
 {
@@ -197,6 +198,7 @@ namespace Devices
         static void Handler(Registers* regs);
 
     private:
+        static InternationalLayout s_layout;
         int m_error;
         static int s_curScanCode;
         static bool s_isNumLock;

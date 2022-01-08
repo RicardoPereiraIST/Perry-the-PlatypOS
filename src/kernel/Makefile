@@ -46,28 +46,29 @@ kernel/boot/virtual_memory/pte.o \
 kernel/boot/virtual_memory/pde.o \
 kernel/boot/virtual_memory/VirtualMemoryManager.o \
 kernel/drivers/Keyboard/keyboard.o \
-kernel/drivers/Keyboard/Layouts/layouts.o \
 kernel/drivers/Keyboard/Layouts/international_layout.o \
 kernel/cli/cli.o \
 kernel/kernel.o \
+kernel/boot/interrupts/irqs.o \
+
+#CRTI_OBJ=$(ARCHDIR)/crti.o
+#CRTBEGIN_OBJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
+#CRTEND_OBJ:=$(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
+#CRTN_OBJ=$(ARCHDIR)/crtn.o
  
 OBJS=\
-kernel/boot/interrupts/irqs.o \
-$(ARCHDIR)/crti.o \
-$(ARCHDIR)/crtbegin.o \
+$(CRTI_OBJ) \
 $(KERNEL_OBJS) \
-$(ARCHDIR)/crtend.o \
-$(ARCHDIR)/crtn.o \
+$(CRTN_OBJ) \
  
 LINK_LIST=\
 $(LDFLAGS) \
-kernel/boot/interrupts/irqs.o \
-$(ARCHDIR)/crti.o \
-$(ARCHDIR)/crtbegin.o \
+$(CRTI_OBJ) \
+$(CRTBEGIN_OBJ) \
 $(KERNEL_OBJS) \
 $(LIBS) \
-$(ARCHDIR)/crtend.o \
-$(ARCHDIR)/crtn.o \
+$(CRTEND_OBJ) \
+$(CRTN_OBJ) \
  
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
@@ -78,7 +79,7 @@ perry.kernel: $(OBJS) $(ARCHDIR)/linker.ld
 	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
 	grub-file --is-x86-multiboot perry.kernel
 
-$(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
+$(CRTBEGIN_OBJ) $(CRTEND_OBJ):
 	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
 
 .c.o:

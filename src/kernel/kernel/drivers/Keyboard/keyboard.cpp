@@ -4,6 +4,9 @@
 #include "Layouts/international_layout.h"
 #include <cctype>
 
+#include <stdio.h>
+
+
 #define TO_INTEGRAL(e) static_cast<uint32_t>(e)
 
 namespace Devices
@@ -129,14 +132,6 @@ namespace Devices
         BootHelpers::OutByte(cmd, TO_INTEGRAL(EncoderPorts::SendCommand));
     }
 
-
-    /************************************************************/
-    /*                   Layout Scancodes                       */
-    /************************************************************/
-
-    // International
-    static const KeyLayout& s_layout = s_internationalLayout;
-
     /************************************************************/
     /*                       Keyboard                           */
     /************************************************************/
@@ -151,6 +146,7 @@ namespace Devices
     bool Keyboard::s_hasBatSucceeded(true);
     bool Keyboard::s_hasDiagnosticSucceeded(false);
     bool Keyboard::s_shouldResend(false);
+    InternationalLayout Keyboard::s_layout;
 
     Keyboard::Keyboard()
         : m_error(0)
@@ -270,7 +266,7 @@ namespace Devices
 
     Keyboard::Keycode Keyboard::GetLastKey() const
 	{
-        return (s_curScanCode != INVALID_SCANCODE) ? static_cast<Keycode>(s_layout.GetKey(s_curScanCode)) : KEY_UNKNOWN;
+        return (s_curScanCode != INVALID_SCANCODE) ? static_cast<Keycode>(s_layout.GetKeyCode(s_curScanCode)) : KEY_UNKNOWN;
 	}
 
     void Keyboard::DiscardLastKey()
@@ -294,7 +290,7 @@ namespace Devices
 
             if (s_isShift && !s_isCapsLock)
             {
-                key = s_layout.TranslateKey(key);
+                key = s_layout.GetTranslation(key);
             }
 
             return key;
@@ -379,7 +375,6 @@ namespace Devices
             return false;
         };
 
-
         int code = INVALID_SCANCODE;
         static bool extended = false;
 
@@ -404,7 +399,7 @@ namespace Devices
                     code -= 0x80;
                 }
 
-                const int key = s_layout.GetKey(code);
+                const int key = s_layout.GetKeyCode(code);
                 checkAndSetShiftAltCtrl(key, !isKeyRelease);
 
                 if (!isKeyRelease)

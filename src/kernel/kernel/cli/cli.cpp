@@ -1,11 +1,26 @@
 #include "cli.h"
 #include "../boot/utils/globals.h"
 #include "../boot/utils/helpers.h"
+#include "../boot/utils/global_helpers.h"
+#include "Commands/ClearTerminal.hpp"
+#include "Commands/HelpCommand.hpp"
 
 #include <stdio.h>
 #include <string.h>
 #include <cctype>
 #include <kernel/tty.h>
+
+static Commands::HelpCommand s_helpCmd;
+static Commands::ClearTerminal s_clsCmd;
+
+Commands::ICommand* Cli::s_commands[COMMANDS] =
+{
+	&s_helpCmd,
+	&s_clsCmd
+};
+
+Cli::Cli()
+{}
 
 void Cli::Run()
 {
@@ -27,28 +42,32 @@ void Cli::PromptUser() const
 
 bool Cli::ExecuteCommand()
 {
-	if (strcmp(m_buffer, "exit") == 0)
+	bool success = false;
+
+	for (uint32_t i = 0; i < COMMANDS; ++i)
 	{
-		return true;
+		if (Commands::ICommand* pCmd = s_commands[i])
+		{
+			if ((success = pCmd->ExecuteCommand(m_buffer)))
+			{
+				break;
+			}			
+		}
 	}
-	else if (strcmp(m_buffer, "cls") == 0)
+
+	if (!success)
 	{
-		terminal_initialize();
+		if (strcmp(m_buffer, "exit") == 0)
+		{
+			return true;
+		}
+		else
+		{
+			printf("\n");
+			printf("Unknown command\n");
+		}
 	}
-	else if (strcmp(m_buffer, "help") == 0)
-	{
-		printf("\n");
-		printf("Perry Os\n");
-		printf("Supported commands:\n");
-		printf("exit: quits and halts the system\n");
-		printf("cls: clears the display\n");
-		printf("help: displays this message\n");
-	}
-	else
-	{
-		printf("\n");
-		printf("Unknown command\n");
-	}
+	
 
 	return false;
 }
@@ -91,6 +110,7 @@ void Cli::GetCommand()
 		if (key == Devices::Keyboard::Keycode::KEY_RETURN)
 		{
 			break;
+			PromptUser();
 		}
 
 		if (key==Devices::Keyboard::Keycode::KEY_BACKSPACE)
@@ -118,7 +138,7 @@ void Cli::GetCommand()
 		}
 
 		//! wait for next key. You may need to adjust this to suite your needs
-		BootHelpers::sleep(10);
+		sleep(10);
 	}
 
 	//! null terminate the string

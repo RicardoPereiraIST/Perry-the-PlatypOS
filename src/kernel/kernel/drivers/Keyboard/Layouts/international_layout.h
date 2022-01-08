@@ -1,10 +1,18 @@
 #pragma once
 
-#include "layouts.h"
+#include <stdint.h>
 
 namespace Devices
 {
-    extern int s_internationLayout[];
-    extern LookUpElement<uint8_t, uint8_t> s_internationalTranslation[];
-    extern KeyLayout s_internationalLayout;
+    struct InternationalLayout
+    {
+        static constexpr const uint8_t s_layoutSize = 186;
+        static constexpr const uint8_t s_translationSize = 22;
+
+        int GetKeyCode(int scancode);
+        int GetTranslation(int keycode);
+
+        static int s_layout[s_layoutSize];
+        static int s_translation[s_translationSize][2];
+    };
 }

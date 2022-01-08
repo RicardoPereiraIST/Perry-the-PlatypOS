@@ -30,7 +30,7 @@ _start:
 	push %ebx
 
 	# Call the global constructors.
-	call _init
+	#call _init
 
 	call kernel_init
 	add	$0x8, %esp
@@ -38,7 +38,14 @@ _start:
 	# Transfer control to the main kernel.
 	call kernel_main
 
-	call _fini
+	#call _fini
+
+	sub $0x4, %esp
+	mov $0x0, (%esp)
+	
+	call __cxa_finalize
+	
+	add $0x4, %esp
 
 	# Hang if kernel_main unexpectedly returns.
 	cli

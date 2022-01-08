@@ -43,6 +43,8 @@ string/memset.o \
 string/strcmp.o \
 string/strlen.o \
 string/itoa.o \
+memory/cstd.o \
+memory/icxxabi.o \
  
 HOSTEDOBJS=\
 $(ARCH_HOSTEDOBJS) \
@@ -70,11 +72,17 @@ libk.a: $(LIBK_OBJS)
 .c.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
+.cpp.o:
+	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+
 .S.o:
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 .c.libk.o:
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+
+.cpp.libk.o:
+	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
 
 .S.libk.o:
 	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)

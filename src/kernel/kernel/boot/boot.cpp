@@ -42,6 +42,7 @@ void kernel_init(multiboot_info_t* pInfo, unsigned int magic)
     BootHelpers::DisableInterrupts();
 
     terminal_initialize();
+
     s_globals.Setup();
 	s_globals.StartTimer();
     SetupMemory(pInfo);
