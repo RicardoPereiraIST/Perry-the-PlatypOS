@@ -6,7 +6,7 @@ namespace Devices
 {
     int InternationalLayout::s_layout[] =
     {
-        //! key			                        scancode
+        // key			                        scancode
         Keyboard::Keycode::KEY_UNKNOWN,	        //0
         Keyboard::Keycode::KEY_ESCAPE,		    //1
         Keyboard::Keycode::KEY_1,			    //2
@@ -78,7 +78,7 @@ namespace Devices
         Keyboard::Keycode::KEY_F10,		        //0x44
         Keyboard::Keycode::KEY_KP_NUMLOCK,	    //0x45
         Keyboard::Keycode::KEY_SCROLLLOCK,	    //0x46
-        Keyboard::Keycode::KEY_KP_7,		    //0x47  //home//! key			                        scancode
+        Keyboard::Keycode::KEY_KP_7,		    //0x47  //home// key			                        scancode
         Keyboard::Keycode::KEY_UNKNOWN,	        //0
         Keyboard::Keycode::KEY_ESCAPE,		    //1
         Keyboard::Keycode::KEY_1,			    //2

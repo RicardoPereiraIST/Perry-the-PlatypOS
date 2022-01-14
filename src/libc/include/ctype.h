@@ -53,7 +53,7 @@ extern char _ctype[];
 
 // in the meantime
 #define isalnum(c)	(isalpha(c) || isdigit(c))
-#define isalpha(c)	(islower(c) || isUpper(c))
+#define isalpha(c)	(islower(c) || isupper(c))
 #define isdigit(c)	(c >= '0' && c <= '9')
 #define islower(c)	(c >= 'a' && c <= 'z')
 #define isspace(c)	(c == ' ')

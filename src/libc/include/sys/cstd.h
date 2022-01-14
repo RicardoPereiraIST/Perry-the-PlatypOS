@@ -6,13 +6,13 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wsized-deallocation"
 
-//! purecall function handler
+// purecall function handler
 extern "C" inline void __cxa_pure_virtual()
 {
     // Do nothing or print an error message.
 }
 
-//! global new and delete operators
+// global new and delete operators
 void* operator new (size_t size) throw();
 void* operator new[] (size_t size) throw();
 void operator delete (void* p) throw();

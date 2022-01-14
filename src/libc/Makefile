@@ -32,6 +32,7 @@ $(ARCH_FREEOBJS) \
 stdio/printf.o \
 stdio/putchar.o \
 stdio/puts.o \
+stdio/atoi.o \
 stdlib/panic.o \
 stdlib/abort.o \
 stdlib/assert.o \

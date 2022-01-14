@@ -47,6 +47,10 @@ void kernel_init(multiboot_info_t* pInfo, unsigned int magic)
 	s_globals.StartTimer();
     SetupMemory(pInfo);
 	s_globals.Keyboard().Setup();
+	s_globals.FloppyDisk().Setup();
+
+	// Set DMA buffer to 64k
+	s_globals.FloppyDisk().SetDMA(0x8000);
 
     BootHelpers::EnableInterrupts();
 }

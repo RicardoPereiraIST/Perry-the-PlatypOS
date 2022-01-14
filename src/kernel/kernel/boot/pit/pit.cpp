@@ -53,18 +53,18 @@ namespace PIT
 
 		const uint16_t divisor = uint16_t(1193181 / (uint16_t)freq);
 
-		//! send operational command
+		// send operational command
 		uint8_t ocw = 0;
 		ocw = (ocw & ~OCW_MASK_MODE) | mode;
 		ocw = (ocw & ~OCW_MASK_RL) | OCW_RL_DATA;
 		ocw = (ocw & ~OCW_MASK_COUNTER) | counter;
 		SendCommand(ocw);
 
-		//! set frequency rate
+		// set frequency rate
 		SendData(divisor & 0xff, 0);
 		SendData((divisor >> 8) & 0xff, 0);
 
-		//! reset tick count
+		// reset tick count
 		s_ticks = 0;
 
 		s_globals.IRQ().Add(0, Handler);

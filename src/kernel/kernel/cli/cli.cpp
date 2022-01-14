@@ -4,6 +4,7 @@
 #include "../boot/utils/global_helpers.h"
 #include "Commands/ClearTerminal.hpp"
 #include "Commands/HelpCommand.hpp"
+#include "Commands/ReadCommand.hpp"
 
 #include <stdio.h>
 #include <string.h>
@@ -12,11 +13,13 @@
 
 static Commands::HelpCommand s_helpCmd;
 static Commands::ClearTerminal s_clsCmd;
+static Commands::ReadCommand s_readCmd;
 
 Commands::ICommand* Cli::s_commands[COMMANDS] =
 {
 	&s_helpCmd,
-	&s_clsCmd
+	&s_clsCmd,
+	&s_readCmd,
 };
 
 Cli::Cli()
@@ -76,13 +79,13 @@ Devices::Keyboard::Keycode Cli::GetChr() const
 {
 	Devices::Keyboard::Keycode key = Devices::Keyboard::KEY_UNKNOWN;
 
-	//! wait for a keypress
+	// wait for a keypress
 	while (key == Devices::Keyboard::KEY_UNKNOWN)
 	{
 		key = s_globals.Keyboard().GetLastKey();
 	}
 
-	//! discard last keypress (we handled it) and return
+	// discard last keypress (we handled it) and return
 	s_globals.Keyboard().DiscardLastKey();
 	return key;
 }
@@ -96,17 +99,17 @@ void Cli::GetCommand()
 	Devices::Keyboard::Keycode key = Devices::Keyboard::Keycode::KEY_UNKNOWN;
 	bool BufChar;
 
-	//! get command string
+	// get command string
 	size_t i = 0;
 	while (i < MAX_SIZE)
 	{
-		//! buffer the next char
+		// buffer the next char
 		BufChar = true;
 
-		//! grab next char
+		// grab next char
 		key = GetChr();
 
-		// //! end of command if enter is pressed
+		// // end of command if enter is pressed
 		if (key == Devices::Keyboard::Keycode::KEY_RETURN)
 		{
 			break;
@@ -115,7 +118,7 @@ void Cli::GetCommand()
 
 		if (key==Devices::Keyboard::Keycode::KEY_BACKSPACE)
 		{
-			//! dont buffer this char
+			// dont buffer this char
 			BufChar = false;
 
 			if (i > 0)
@@ -125,10 +128,10 @@ void Cli::GetCommand()
 			}
 		}
 
-		// //! only add the char if it is to be buffered
+		// // only add the char if it is to be buffered
 		if (BufChar)
 		{
-			//! convert key to an ascii char and put it in buffer
+			// convert key to an ascii char and put it in buffer
 			const char c = s_globals.Keyboard().KeyToAscii(key);
 			if (isprint(c))
 			{
@@ -137,10 +140,10 @@ void Cli::GetCommand()
 			}
 		}
 
-		//! wait for next key. You may need to adjust this to suite your needs
+		// wait for next key. You may need to adjust this to suite your needs
 		sleep(10);
 	}
 
-	//! null terminate the string
+	// null terminate the string
 	m_buffer[i] = '\0';
 }

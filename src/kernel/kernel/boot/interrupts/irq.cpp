@@ -55,7 +55,7 @@ namespace Interrupt
             s_globals.PIC().SendCommand(PIC::OCW2_MASK_EOI, 1);
         }
 
-        //! always send end-of-interrupt to primary pic
+        // Always send end-of-interrupt to primary pic
         s_globals.PIC().SendCommand(PIC::OCW2_MASK_EOI, 0);
     }
 }

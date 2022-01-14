@@ -27,7 +27,7 @@ namespace Memory
             PTE m_entries[PAGES_PER_TABLE];
         };
 
-        //! page directory
+        // page directory
         struct PageDirectory
         {
             PDE* GetEntry(uint32_t index);

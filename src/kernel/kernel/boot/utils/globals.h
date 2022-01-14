@@ -9,6 +9,8 @@
 #include "../physical_memory/PhysicalMemoryManager.h"
 #include "../virtual_memory/VirtualMemoryManager.h"
 #include "../../drivers/Keyboard/keyboard.h"
+#include "../../drivers/FloppyDisk/FloppyDisk.h"
+#include "../../drivers/DMA/Dma.h"
 
 class Globals
 {
@@ -28,6 +30,8 @@ public:
     ::Memory::PhysicalMemoryManager& PhysicalMemoryManager();
     ::Memory::VirtualMemoryManager& VirtualMemoryManager();
     ::Devices::Keyboard& Keyboard();
+    ::Devices::FloppyDisk& FloppyDisk();
+    ::Devices::DMA& DMA();
 
 private:
     ::GDT::GDT m_gdt;
@@ -39,6 +43,8 @@ private:
     ::Memory::PhysicalMemoryManager m_pmm;
     ::Memory::VirtualMemoryManager m_vmm;
     ::Devices::Keyboard m_keyboard;
+    ::Devices::FloppyDisk m_floppyDisk;
+    ::Devices::DMA m_dma;
 };
 
 extern Globals s_globals;

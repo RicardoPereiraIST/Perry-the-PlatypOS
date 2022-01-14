@@ -72,3 +72,13 @@ Globals::Globals()
 {
     return m_keyboard;
 }
+
+::Devices::FloppyDisk& Globals::FloppyDisk()
+{
+    return m_floppyDisk;
+}
+
+::Devices::DMA& Globals::DMA()
+{
+    return m_dma;
+}

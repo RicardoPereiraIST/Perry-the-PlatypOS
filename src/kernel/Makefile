@@ -47,6 +47,8 @@ kernel/boot/virtual_memory/pde.o \
 kernel/boot/virtual_memory/VirtualMemoryManager.o \
 kernel/drivers/Keyboard/keyboard.o \
 kernel/drivers/Keyboard/Layouts/international_layout.o \
+kernel/drivers/FloppyDisk/FloppyDisk.o \
+kernel/drivers/DMA/Dma.o \
 kernel/cli/cli.o \
 kernel/kernel.o \
 kernel/boot/interrupts/irqs.o \
