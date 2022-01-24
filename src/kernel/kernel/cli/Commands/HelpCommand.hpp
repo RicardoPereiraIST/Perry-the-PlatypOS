@@ -22,6 +22,7 @@ namespace Commands
             printf("exit: quits and halts the system\n");
             printf("cls: clears the display\n");
             printf("read [x]: reads given sector (default = 0)\n");
+            printf("user: goes into user mode\n");
             printf("help: displays this message\n");
         }
     };

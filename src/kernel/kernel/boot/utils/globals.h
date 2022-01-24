@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../gdt/gdt.h"
+#include "../tss/tss_table.h"
 #include "../interrupts/idt.h"
 #include "../interrupts/irq.h"
 #include "../interrupts/isr.h"
@@ -11,6 +12,7 @@
 #include "../../drivers/Keyboard/keyboard.h"
 #include "../../drivers/FloppyDisk/FloppyDisk.h"
 #include "../../drivers/DMA/Dma.h"
+#include "../../filesystem/vfs/fsys.h"
 
 class Globals
 {
@@ -22,6 +24,7 @@ public:
     void StartTimer();
 
     ::GDT::GDT& GDT();
+    ::TSS::TssTable& TSS();
     ::Interrupt::IDT& IDT();
     ::Interrupt::IRQ& IRQ();
     ::Interrupt::ISR& ISR();
@@ -32,9 +35,11 @@ public:
     ::Devices::Keyboard& Keyboard();
     ::Devices::FloppyDisk& FloppyDisk();
     ::Devices::DMA& DMA();
+    ::FileSystem& VFS();
 
 private:
     ::GDT::GDT m_gdt;
+    ::TSS::TssTable m_tss;
     ::Interrupt::IDT m_idt;
     ::Interrupt::IRQ m_irq;
     ::Interrupt::ISR m_isr;
@@ -45,6 +50,7 @@ private:
     ::Devices::Keyboard m_keyboard;
     ::Devices::FloppyDisk m_floppyDisk;
     ::Devices::DMA m_dma;
+    ::FileSystem m_vfs;
 };
 
 extern Globals s_globals;

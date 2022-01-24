@@ -17,6 +17,13 @@ namespace Commands
         
         virtual void ExecuteCommand_Impl(const char* szBuffer) const override
         {
+            // ReadSector(szBuffer);
+            ReadFile(szBuffer);
+        }
+
+    private:
+        void ReadSector(const char* szBuffer) const
+        {
             uint32_t sectornum = 0;
             uint8_t* sectorData = 0;
 
@@ -50,6 +57,36 @@ namespace Commands
             else
             {
                 printf("\n\r*** Error reading sector from disk\n");
+            }
+        }
+
+        void ReadFile(const char* szBuffer) const
+        {
+            const char* szParameters = szBuffer + COMMAND_LEN + 1;
+
+            FILE file = s_globals.VFS().OpenFile(szParameters);
+
+            if (file.flags == FileFlags::Invalid)
+            {
+                printf("\nUnable to open file\n");
+                return;
+            }
+
+            if (file.flags & FileFlags::Directory)
+            {
+                printf("\nUnable to display contents of directory.\n");
+                return;
+            }
+
+            printf("\n\n\r-------[%s]-------\n\r", file.name);
+
+            while (file.eof != 1)
+            {
+                unsigned char buf[512];
+                s_globals.VFS().ReadFile(&file, buf, 512);
+
+                for (int i = 0; i < 512; i++)
+                    printf("%c", buf[i]);
             }
         }
     };

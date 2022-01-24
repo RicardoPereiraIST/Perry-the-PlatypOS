@@ -12,14 +12,16 @@ namespace TSS
 {
     class TssTable
     {
-        static constexpr unsigned int SIZE = 1;
+        static constexpr const uint8_t SIZE = 1;
 
     public:
         TssTable();
-        ::GDT::gdt_descriptor_t CreateDescriptor(const uint16_t dataSeg);
+        void AddDescriptor(uint16_t kernelSS, uint16_t kernelESP);
+        void SetStack(uint16_t kernelSS, uint16_t kernelESP);
+        void Flush() const;
 
     private:
         task_state_segment_t m_table[SIZE];
-        unsigned int m_cur_tss;
+        int m_curTss = -1;
     };
 }

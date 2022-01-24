@@ -14,6 +14,8 @@ int strcmp(const char* s1, const char* s2);
 int strncmp(const char* s1, const char* s2, size_t n);
 size_t strlen(const char*);
 char* itoa(int value, char* result, int base);
+char* strcpy(char* s1, const char* s2);
+char* strchr(char* str, int character);
 
 #ifdef __cplusplus
 }

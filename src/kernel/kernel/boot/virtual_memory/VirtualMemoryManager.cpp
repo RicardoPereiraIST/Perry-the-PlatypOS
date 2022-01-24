@@ -85,6 +85,7 @@ namespace Memory
         {
             PTE page{};
             page.AddAttr(PTE::PRESENT);
+            page.AddAttr(PTE::USER);
             page.SetFrame(frame);
 
             pHigherHalfTable->AddPage(PAGE_TABLE_INDEX(virtualAddr), page);
@@ -94,6 +95,7 @@ namespace Memory
         {
             PTE page{};
             page.AddAttr(PTE::PRESENT);
+            page.AddAttr(PTE::USER);
             page.SetFrame(frame);
 
             pTable->AddPage(PAGE_TABLE_INDEX(virtualAddr), page);
@@ -107,6 +109,7 @@ namespace Memory
             {
                 pHigherHalfEntry->AddAttr(PDE::PRESENT);
                 pHigherHalfEntry->AddAttr(PDE::WRITABLE);
+                pHigherHalfEntry->AddAttr(PDE::USER);
                 pHigherHalfEntry->SetFrame(reinterpret_cast<uint32_t>(pTable));
             }
 
@@ -114,6 +117,7 @@ namespace Memory
             {
                 pEntry->AddAttr(PDE::PRESENT);
                 pEntry->AddAttr(PDE::WRITABLE);
+                pEntry->AddAttr(PDE::USER);
                 pEntry->SetFrame(reinterpret_cast<uint32_t>(pHigherHalfTable));
             }
 

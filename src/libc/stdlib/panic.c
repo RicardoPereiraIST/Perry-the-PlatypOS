@@ -3,6 +3,6 @@
 
 void panic(const char* szMessage)
 {
-    printf("Panic: %s", szMessage);
+    printf("Panic: %s\n", szMessage);
 	abort();
 }

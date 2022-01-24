@@ -33,6 +33,11 @@ Globals::Globals()
     return m_gdt;
 }
 
+::TSS::TssTable& Globals::TSS()
+{
+    return m_tss;
+}
+
 ::Interrupt::IDT& Globals::IDT()
 {
     return m_idt;
@@ -81,4 +86,9 @@ Globals::Globals()
 ::Devices::DMA& Globals::DMA()
 {
     return m_dma;
+}
+
+::FileSystem& Globals::VFS()
+{
+    return m_vfs;
 }

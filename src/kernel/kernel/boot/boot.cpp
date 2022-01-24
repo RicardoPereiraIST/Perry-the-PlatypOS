@@ -1,6 +1,7 @@
 #include "utils/globals.h"
 #include "utils/helpers.h"
 #include "utils/multiboot.h"
+#include "../filesystem/fat12/fat12.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +10,26 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void SysCallHandler(Registers* regs)
+{
+	(void) regs;
+	printf("\nWelcome to User Mode!");
+}
+
+void SetUserModeTest()
+{
+	Interrupt::selector_t selector{};
+	Interrupt::flag_t flags{};
+
+	selector.index = GDT::CODE_SELECTOR;
+
+	flags.p = 1;
+	flags.gate_type = Interrupt::INTERRUPT_GATE_TYPE;
+	flags.dpl = 3;
+
+	s_globals.IDT().AddDescriptor(0x80, &SysCallHandler, selector, flags);
+}
 
 static void SetupMemory(multiboot_info_t* pInfo)
 {
@@ -51,6 +72,12 @@ void kernel_init(multiboot_info_t* pInfo, unsigned int magic)
 
 	// Set DMA buffer to 64k
 	s_globals.FloppyDisk().SetDMA(0x8000);
+
+	FAT12::Initialize();
+
+	SetUserModeTest();
+
+	s_globals.TSS().AddDescriptor(0x10, 0);
 
     BootHelpers::EnableInterrupts();
 }

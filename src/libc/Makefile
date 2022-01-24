@@ -44,6 +44,8 @@ string/memset.o \
 string/strcmp.o \
 string/strlen.o \
 string/itoa.o \
+string/strcpy.o \
+string/strchr.o \
 memory/cstd.o \
 memory/icxxabi.o \
  

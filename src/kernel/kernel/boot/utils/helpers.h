@@ -58,4 +58,31 @@ namespace BootHelpers
     {
         asm volatile ("int %0\n" : : "N"(N));
     }
+
+    inline void UserMode()
+    {
+        asm volatile("cli;\n\t"
+            "mov $0x23, %%ax;\n\t"
+            "mov %%ax, %%ds;\n\t"
+            "mov %%ax, %%es;\n\t"
+            "mov %%ax, %%fs;\n\t"
+            "mov %%ax, %%gs;\n\t"
+
+            "mov %%esp, %%eax;\n\t"
+            "pushl $0x23;\n\t"
+            "pushl %%eax;\n\t"
+            "pushf;\n\t"
+            
+            "pop %%eax;\n\t"
+            "or $0x200, %%eax;\n\t"
+            "push %%eax;\n\t"
+            
+            "pushl $0x1b;\n\t"
+            "push $fake_jump%=;\n\t"
+            "iret;\n\t"
+            "fake_jump%=:\n\t"
+        :
+        : 
+        : "eax", "memory");
+    }
 }

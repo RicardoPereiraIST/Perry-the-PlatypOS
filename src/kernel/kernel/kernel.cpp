@@ -1,6 +1,4 @@
 #include "cli/cli.h"
-// #include <sys/cstd.h>
-// #include <sys/icxxabi.h>
 #include "boot/utils/globals.h"
 #include "boot/utils/global_helpers.h"
 
@@ -11,6 +9,7 @@ extern "C" {
 
 void kernel_main()
 {
+	printf("Welcome to PerryOS!\n");
 	Cli cli;
 	cli.Run();	
 }

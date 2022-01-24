@@ -10,7 +10,7 @@
 
 class Cli
 {
-    static constexpr const uint8_t COMMANDS = 3;
+    static constexpr const uint8_t COMMANDS = 4;
     static constexpr const uint16_t SIZE = 256;
 
 public:

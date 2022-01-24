@@ -5,6 +5,7 @@
 #include "Commands/ClearTerminal.hpp"
 #include "Commands/HelpCommand.hpp"
 #include "Commands/ReadCommand.hpp"
+#include "Commands/UserCommand.hpp"
 
 #include <stdio.h>
 #include <string.h>
@@ -14,12 +15,14 @@
 static Commands::HelpCommand s_helpCmd;
 static Commands::ClearTerminal s_clsCmd;
 static Commands::ReadCommand s_readCmd;
+static Commands::UserCommand s_userCmd;
 
 Commands::ICommand* Cli::s_commands[COMMANDS] =
 {
 	&s_helpCmd,
 	&s_clsCmd,
 	&s_readCmd,
+	&s_userCmd,
 };
 
 Cli::Cli()

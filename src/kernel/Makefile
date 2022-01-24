@@ -33,6 +33,7 @@ KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
 kernel/boot/boot.o \
 kernel/boot/gdt/gdt.o \
+kernel/boot/tss/tss_table.o \
 kernel/boot/interrupts/idt.o \
 kernel/boot/interrupts/irq.o \
 kernel/boot/interrupts/isr.o \
@@ -49,6 +50,8 @@ kernel/drivers/Keyboard/keyboard.o \
 kernel/drivers/Keyboard/Layouts/international_layout.o \
 kernel/drivers/FloppyDisk/FloppyDisk.o \
 kernel/drivers/DMA/Dma.o \
+kernel/filesystem/vfs/fsys.o \
+kernel/filesystem/fat12/fat12.o \
 kernel/cli/cli.o \
 kernel/kernel.o \
 kernel/boot/interrupts/irqs.o \
