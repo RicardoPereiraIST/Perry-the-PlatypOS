@@ -12,7 +12,7 @@ It contains the following:
 - Archetype for VFS and Fat12 Filesystem
 - TSS and User code
 
-Know issues:
+Known issues:
 - The code and build scripts are not properly organized.
 - C++ setup isn't complete (e.g., compilation issues with virtual destructors).
 - Some early setup is incomplete (stack canary, stubs).
