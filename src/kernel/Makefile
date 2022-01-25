@@ -37,6 +37,7 @@ kernel/boot/tss/tss_table.o \
 kernel/boot/interrupts/idt.o \
 kernel/boot/interrupts/irq.o \
 kernel/boot/interrupts/isr.o \
+kernel/boot/interrupts/syscalls.o \
 kernel/boot/pic/pic.o \
 kernel/boot/pit/pit.o \
 kernel/boot/a20/a20_enabler.o \

@@ -53,6 +53,11 @@ Globals::Globals()
     return m_isr;
 }
 
+::Interrupt::SysCalls& Globals::SysCalls()
+{
+    return m_sysCalls;
+}
+
 ::PIC::PIC& Globals::PIC()
 {
     return m_pic;

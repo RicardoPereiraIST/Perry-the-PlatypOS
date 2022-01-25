@@ -5,6 +5,7 @@
 #include "../interrupts/idt.h"
 #include "../interrupts/irq.h"
 #include "../interrupts/isr.h"
+#include "../interrupts/syscalls.h"
 #include "../pic/pic.h"
 #include "../pit/pit.h"
 #include "../physical_memory/PhysicalMemoryManager.h"
@@ -28,6 +29,7 @@ public:
     ::Interrupt::IDT& IDT();
     ::Interrupt::IRQ& IRQ();
     ::Interrupt::ISR& ISR();
+    ::Interrupt::SysCalls& SysCalls();
     ::PIC::PIC& PIC();
     ::PIT::PIT& PIT();
     ::Memory::PhysicalMemoryManager& PhysicalMemoryManager();
@@ -43,6 +45,7 @@ private:
     ::Interrupt::IDT m_idt;
     ::Interrupt::IRQ m_irq;
     ::Interrupt::ISR m_isr;
+    ::Interrupt::SysCalls m_sysCalls;
     ::PIC::PIC m_pic;
     ::PIT::PIT m_pit;
     ::Memory::PhysicalMemoryManager m_pmm;

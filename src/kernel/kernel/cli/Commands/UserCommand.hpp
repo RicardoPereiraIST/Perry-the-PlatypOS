@@ -27,8 +27,16 @@ namespace Commands
             
             BootHelpers::UserMode();
 
+            const char* szUserModeString = "\nWelcome to User Mode!\n";
+
             // Test user mode
-            asm volatile("int $0x80;");
+            asm volatile("xor %%eax, %%eax;\n\t"
+                "leal (%0), %%ebx;\n\t"
+                "int $0x80;\n\t"
+                :
+                : "r" (szUserModeString)
+                : "eax", "ebx", "memory"
+            );
 
             while(1);
         }
