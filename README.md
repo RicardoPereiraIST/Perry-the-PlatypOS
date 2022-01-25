@@ -18,7 +18,6 @@ Known issues:
 - Some early setup is incomplete (stack canary, stubs).
 - A20 does not work correctly.
 - Physical/Virtual Memory, FDC/DMA, and Filesystem were not used throughout development so there might be issues.
-- Values in Registers struct are incorrect during syscall. This is why SysCalls::Handler accesses registers directly.
 
 Running the project:
 With a cross compiler - https://wiki.osdev.org/GCC_Cross-Compiler - and qemu, run the following command from inside the scripts folder:
