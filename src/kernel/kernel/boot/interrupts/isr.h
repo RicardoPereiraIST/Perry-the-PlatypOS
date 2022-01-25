@@ -4,7 +4,7 @@
 
 namespace Interrupt
 {
-    constexpr const uint8_t NUM_ISRS = 48;
+    constexpr const uint32_t NUM_ISRS = 256;
     
     class ISR
     {
@@ -18,11 +18,14 @@ namespace Interrupt
     public:
         ISR() = default;
         void Setup();
-        void Add(uint8_t i, THandler handler);
+        void Add(uint32_t i, THandler handler);
+        void Add(uint32_t i, THandler handler, const flag_t& flags);
 
         static void Call(Registers* regs);
 
     private:
+        void SetupMissingISRs();
+
         static void Stub(Registers* regs);
 
         static THandler s_handlers[NUM_ISRS];

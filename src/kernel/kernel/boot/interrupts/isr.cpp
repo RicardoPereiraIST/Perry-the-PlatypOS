@@ -51,6 +51,7 @@ extern "C" {
     void _isr45(Registers*);
     void _isr46(Registers*);
     void _isr47(Registers*);
+    void _isr128(Registers*);
 }
 
 static void (*stubs[Interrupt::NUM_ISRS])(Registers*) = {
@@ -146,7 +147,14 @@ extern "C" {
 
 static void exception_handler(Registers *regs)
 {
-    panic(exceptions[regs->int_no]);
+    if (regs->int_no < 32)
+    {
+        panic(exceptions[regs->int_no]);
+    }
+    else
+    {
+        panic("Undefined interrupt");
+    }
 }
 
 namespace Interrupt
@@ -154,32 +162,41 @@ namespace Interrupt
     THandler ISR::s_handlers[]{};
     ISR::ISRS ISR::s_isrs[]{};
 
+    void ISR::SetupMissingISRs()
+    {
+        stubs[128] = _isr128;
+    }
+
     void ISR::Setup()
     {
-        selector_t selector{};
+        SetupMissingISRs();
+
         flag_t flags{};
-
-        selector.index = GDT::CODE_SELECTOR;
-
         flags.p = 1;
         flags.gate_type = INTERRUPT_GATE_TYPE;
 
-        for (uint8_t i = 0; i < NUM_ISRS; i++)
+        for (uint32_t i = 0; i < NUM_ISRS; i++)
         {
             s_isrs[i].index = i;
             s_isrs[i].stub = stubs[i];
-            s_globals.IDT().AddDescriptor(s_isrs[i].index, s_isrs[i].stub, selector, flags);
-        }
 
-        for (uint8_t i = 0; i < 32; i++)
-        {
-            Add(i, exception_handler);
+            Add(i, exception_handler, flags);
         }
     }
 
-    void ISR::Add(uint8_t i, THandler handler)
+    void ISR::Add(uint32_t i, THandler handler)
     {
         s_handlers[i] = handler;
+    }
+
+    void ISR::Add(uint32_t i, THandler handler, const flag_t& flags)
+    {
+        selector_t selector{};
+        selector.index = GDT::CODE_SELECTOR;
+
+        s_globals.IDT().AddDescriptor(s_isrs[i].index, s_isrs[i].stub, selector, flags);
+
+        Add(i, handler);
     }
 
     void ISR::Call(Registers* regs)

@@ -63,6 +63,7 @@ ISR_NO_ERR 44
 ISR_NO_ERR 45
 ISR_NO_ERR 46
 ISR_NO_ERR 47
+ISR_NO_ERR 128
 
 /* defined in isr.c */
 .extern isr_handler
